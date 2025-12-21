@@ -1,6 +1,7 @@
 from pathlib import Path
 from os.path import join
 from environ import Env
+from django.urls import reverse
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 Env.read_env(join(BASE_DIR, ".env"))
@@ -14,6 +15,7 @@ TRIDY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'django_browser_reload'
 ]
 PROJECT_APPS = [
     "users",
@@ -38,6 +40,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 ROOT_URLCONF = "configs.urls"
 TEMPLATES = [
@@ -107,7 +110,10 @@ LENGUAGES = [
 ]
 LOCALE_PATHS = [join(BASE_DIR, "locale")]
 STATIC_URL = "/static/"
-STATIC_ROOT = join(BASE_DIR, "static")
+STATIC_ROOT = join(BASE_DIR, "staticData")
+STATICFILES_DIRS = [
+    join(BASE_DIR,'static')
+]
 MEDIA_ROOT = join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 AUTHENTICATION_BACKENDS = (
@@ -118,3 +124,5 @@ ACCOUNT_EMAIL_VERIFICATION = 'optional'
 SITE_ID = 1
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+LOGIN_REDIRECT_URL = "/account/me/"
+LOGIN_URL = '/account/login/'

@@ -1,0 +1,76 @@
+{%extends 'layout/base.html'%}
+
+{% load django_browser_reload %}
+{%load static%}
+
+{%block body%}
+<body class="bg-gradient-to-br from-purple-600 via-blue-600 to-pink-500 min-h-screen">
+    
+
+    {% block messages %}
+        {%include "layout/messages.html"%}
+    {% endblock %}
+
+    <!-- Modal Block -->
+    {% block modal %}
+    <!-- Os modais específicos de cada página podem ser inseridos aqui -->
+    {% endblock %}
+
+    <!-- Main Content -->
+    <div class="flex items-center justify-center min-h-screen p-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Scripts Block -->
+    {% block scripts %}
+    <script>
+        // Auto-hide messages after 5 seconds
+        setTimeout(() => {
+            const messages = document.querySelectorAll('[class*="animate-slide-down"]');
+            messages.forEach(msg => {
+                msg.style.transition = 'opacity 0.5s';
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 500);
+            });
+        }, 5000);
+
+        // Modal Functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal on backdrop click
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-backdrop')) {
+                e.target.closest('.modal-container').classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal-container:not(.hidden)');
+                modals.forEach(modal => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
+    </script>
+    {% endblock %}
+    {% django_browser_reload_script %}
+</body>
+{%endblock%}
