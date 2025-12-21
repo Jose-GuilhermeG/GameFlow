@@ -10,7 +10,10 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
 ALLOWED_HOSTS = ["*"]
 TRIDY_APPS = [
-
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 PROJECT_APPS = [
     "users",
@@ -28,6 +31,7 @@ DJANGO_APPS = [
 INSTALLED_APPS = DJANGO_APPS + TRIDY_APPS + PROJECT_APPS
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -106,3 +110,11 @@ STATIC_URL = "/static/"
 STATIC_ROOT = join(BASE_DIR, "static")
 MEDIA_ROOT = join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
+AUTHENTICATION_BACKENDS = (
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+SITE_ID = 1
+ACCOUNT_LOGIN_METHODS = {'email'}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
