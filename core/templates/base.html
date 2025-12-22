@@ -1,10 +1,13 @@
 {%extends 'layout/base.html'%}
 
 {% load django_browser_reload %}
-{%load static%}
 
 {%block body%}
-<body class="min-h-screen">
+<body class="min-h-screen bg-gray-50">
+
+    {%if not dont_use_header%}
+    {% include 'layout/header.html'%}
+    {%endif%}
 
     {% block messages %}
         {%include "layout/messages.html"%}
@@ -16,9 +19,9 @@
     {% endblock %}
 
     <!-- Main Content -->
-    <div class="flex justify-center min-h-screen">
+    <main class="flex justify-center min-h-screen border-blue-200">
         {% block content %}{% endblock %}
-    </div>
+    </main>
 
     <!-- Scripts Block -->
     {% block scripts %}

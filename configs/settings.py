@@ -1,7 +1,7 @@
 from pathlib import Path
 from os.path import join
 from environ import Env
-from django.urls import reverse
+from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 Env.read_env(join(BASE_DIR, ".env"))
@@ -15,11 +15,13 @@ TRIDY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'django_browser_reload'
+    'django_browser_reload',
+    'django_filters',
 ]
 PROJECT_APPS = [
     "users",
     "core",
+    "tournament"
 ]
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -124,5 +126,18 @@ ACCOUNT_EMAIL_VERIFICATION = 'optional'
 SITE_ID = 1
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
-LOGIN_REDIRECT_URL = "/account/me/"
-LOGIN_URL = '/account/login/'
+LOGIN_REDIRECT_URL = reverse_lazy("users:profile")
+LOGIN_URL = reverse_lazy("users:login")
+AUTH_USER_MODEL = 'users.User'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}

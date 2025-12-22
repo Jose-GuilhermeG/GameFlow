@@ -1,0 +1,28 @@
+{% load user_photo_generetor %}
+<header class="w-full h-[10vh] bg-indigo-400 sticky top-0 m-0 flex justify-between items-center z-10">
+    <div class="flex items-center justify-center w-[200px] h-full mx-5">
+        <a class="text-3xl font-bold text-white mb-2 drop-shadow-lg cursor-pointer">⚔️ GameFlow</a>
+    </div>
+
+    <ul class="flex h-full justify-around items-center w-[30%] [&_li]:text-white [&_li]:font-semibold [&_li]:capitalize [&_li]:tracking-widest [&_li]:relative">
+        <li class="link">
+            <a href="{%url 'tournament:list-tournament' %}">Torneios</a>
+        </li>
+        <li class="w-16 h-16">
+            {%if request.user.is_anonymous%}
+                <a href="{%url 'users:login'%}"
+                    class="bg-gray-100 text-gray-700 font-semibold py-2.5 px-6 rounded-lg hover:bg-gray-200 transition-all duration-200">
+                        Entrar
+                </a>
+            {%else%}
+                <a href="{%url 'users:profile'%}">
+                    {%if user.photo%}
+                        <img src="{{request.user.photo.url}}" alt="" class="rounded-full">
+                    {%else%}
+                        {%user_photo_generetor request.user%}
+                    {%endif%}
+                </a>
+            {%endif%}
+            </li>
+    </ul>
+</header>

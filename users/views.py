@@ -13,7 +13,6 @@ class LoginView(
     djangoLoginView
 ):
     template_name = "users/login.html"
-    next_page = reverse_lazy("users:profile")
     success_message = _("Usuario logado com sucesso")
     
     
@@ -36,3 +35,4 @@ class ProfileView(
     generic.TemplateView
 ):
     template_name = 'users/profile.html'
+    extra_context = {"dont_use_header" : True}

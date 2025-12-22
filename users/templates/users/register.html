@@ -36,6 +36,24 @@
                 {% endif %}
             </div>
 
+             <div class="mb-5">
+                <label for="nickname" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Apelido
+                </label>
+                <input 
+                    type="text" 
+                    id="nickname" 
+                    name="nickname" 
+                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent outline-none transition duration-200 hover:border-gray-400"
+                    placeholder="Digite o apelido de usuario"
+                    value="{{form.nickname.value|default:''}}"
+                    required
+                >
+                {% if form.nickname.errors %}
+                    <p class="mt-2 text-sm text-red-600">{{ form.password2.errors.0 }}</p>
+                {% endif %}
+            </div>
+
             <div class="mb-5">
                 <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
                     Email
@@ -55,13 +73,13 @@
             </div>
 
             <div class="mb-5">
-                <label for="password1" class="block text-sm font-semibold text-gray-700 mb-2">
+                <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
                     Senha
                 </label>
                 <input 
                     type="password" 
-                    id="password1" 
-                    name="password1" 
+                    id="password" 
+                    name="password" 
                     class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent outline-none transition duration-200 hover:border-gray-400"
                     placeholder="Crie uma senha forte"
                     required
@@ -71,22 +89,6 @@
                 {% endif %}
             </div>
 
-            <div class="mb-5">
-                <label for="password2" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Confirme a Senha
-                </label>
-                <input 
-                    type="password" 
-                    id="password2" 
-                    name="password2" 
-                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent outline-none transition duration-200 hover:border-gray-400"
-                    placeholder="Digite a senha novamente"
-                    required
-                >
-                {% if form.password2.errors %}
-                    <p class="mt-2 text-sm text-red-600">{{ form.password2.errors.0 }}</p>
-                {% endif %}
-            </div>
 
             <div class="mb-6">
                 <label class="flex items-start cursor-pointer">
