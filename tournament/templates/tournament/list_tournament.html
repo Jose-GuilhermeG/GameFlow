@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pagination %}
+
+{% block title %}Torneios - GameFlow{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+                <div>
+                    <h1 class="text-4xl text-black mb-2">
+                        Torneios
+                    </h1>
+                    <p class="text-black text-lg">
+                        Encontre e participe de torneios
+                    </p>
+                </div>
+                <a href="{% url 'tournament:create-tournament' %}" 
+                   class="mt-4 md:mt-0 inline-flex items-center gap-2 bg-white text-indigo-600 font-semibold py-3 px-6 rounded-lg hover:bg-indigo-50 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Criar Torneio
+                </a>
+            </div>
+            <form method="get" action="" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="lg:col-span-2">
+                        <label for="search" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Pesquisar
+                        </label>
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                name="search" 
+                                id="search"
+                                value="{{ request.GET.search }}"
+                                placeholder="Nome do torneio..."
+                                class="w-full pl-10 pr-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none">
+                            <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="status" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Status
+                        </label>
+                        <select 
+                            name="status" 
+                            id="status"
+                            class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none cursor-pointer bg-white">
+                            <option value="">Todos</option>
+                            {%for status in filter.status_options%}
+                             <option value="{{status.0}}" {% if request.GET.status == status.0 %}selected{% endif %}>{{status.1}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="max_enrrolment" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Inscrições
+                        </label>
+                        <select 
+                            name="max_enrrolment" 
+                            id="max_enrrolment"
+                            class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none cursor-pointer bg-white">
+                            <option value="">Todas</option>
+                            <option value="4" {% if request.GET.max_enrrolment == '4' %}selected{% endif %}>4</option>
+                            <option value="6" {% if request.GET.max_enrrolment == '6' %}selected{% endif %}>6</option>
+                            <option value="8" {% if request.GET.max_enrrolment == '8' %}selected{% endif %}>8</option>
+                            <option value="10" {% if request.GET.max_enrrolment == '10' %}selected{% endif %}>10</option>
+                            <option value="12" {% if request.GET.max_enrrolment == '12' %}selected{% endif %}>12</option>
+                            <option value="14" {% if request.GET.max_enrrolment == '14' %}selected{% endif %}>14</option>
+                            <option value="16" {% if request.GET.max_enrrolment == '16' %}selected{% endif %}>16</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                        <label for="current_stage" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Etapa Atual
+                        </label>
+                        <input 
+                            type="number" 
+                            name="current_stage" 
+                            id="current_stage"
+                            value="{{ request.GET.current_stage }}"
+                            min="1"
+                            placeholder="Ex: 3"
+                            class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none">
+                    </div>
+
+                    <div class="flex items-end gap-2 lg:col-span-3">
+                        <button 
+                            type="submit"
+                            class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-2.5 px-6 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg">
+                            Filtrar
+                        </button>
+                        <a 
+                            href="{%url 'tournament:list-tournament'%}"
+                            class="bg-gray-100 text-gray-700 font-semibold py-2.5 px-6 rounded-lg hover:bg-gray-200 transition-all duration-200">
+                            Limpar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-white/90 backdrop-blur rounded-lg px-6 py-3 mb-6 shadow-md">
+            <p class="text-sm text-gray-600">
+                Mostrando <span class="font-semibold text-gray-800">{{ tournaments|length }}</span> torneio(s)
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-white px-10 py-10">
+            {% for tournament in tournaments %}
+            <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
+                    <h3 class="text-xl font-bold text-white truncate">
+                        {{ tournament.name }}
+                    </h3>
+                </div>
+
+                <div class="p-6">
+                    <div class="mb-4">
+                        {% if tournament.status == 'U' or tournament.status == 'P' %}
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-100 text-gray-700 text-xs font-semibold rounded-full">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                </svg>
+                                {{tournament.get_status_display}}
+                            </span>
+                        {% elif tournament.status == 'S' %}
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                                </svg>
+                                Iniciado
+                            </span>
+                        {% elif tournament.status == 'F' %}
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                Finalizado
+                            </span>
+                        {% elif tournament.status == 'C' %}
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                </svg>
+                                Cancelado
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                        {% if tournament.description %}
+                            {% if tournament.description|length > 50 %}
+                                {{ tournament.description|slice:":50" }}...
+                            {% else %}
+                                {{ tournament.description }}
+                            {% endif %}
+                        {% else %}
+                            <span class="text-gray-400 italic">Sem descrição</span>
+                        {% endif %}
+                    </p>
+
+                    <div class="space-y-2 mb-4 pt-4 border-t border-gray-200">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500 font-medium">Inscrições:</span>
+                            <span class="text-gray-800 font-semibold">{{ tournament.max_enrrolment }}</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500 font-medium">Etapa Atual:</span>
+                            <span class="text-gray-800 font-semibold">{{ tournament.current_stage }}/{{ tournament.get_total_stages}}</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500 font-medium">Organizador:</span>
+                            <span class="text-gray-800 font-semibold">{{ tournament.owner.username }}</span>
+                        </div>
+                    </div>
+
+                    <a 
+                        href=""
+                        class="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center font-semibold py-2.5 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-md">
+                        Ver Detalhes
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-full">
+                <div class="bg-white rounded-xl shadow-lg p-12 text-center">
+                    <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-gray-700 mb-2">
+                        Nenhum torneio encontrado
+                    </h3>
+                    <p class="text-gray-500 mb-6">
+                        Tente ajustar os filtros ou crie um novo torneio
+                    </p>
+                    <a 
+                        href=""
+                        class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Criar Primeiro Torneio
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+       {%pagination%}
+</div>
+{% endblock %}
