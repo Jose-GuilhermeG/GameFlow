@@ -1,0 +1,22 @@
+blank_issues_enabled: True
+issue_templates:
+  - name: "Bug Report"
+    description: "Report a bug in the system."
+    title: "[module_name]: bug "
+    labels: ["bug"]
+    body: "./ISSUE_TEMPLATE/bug_report.md"
+  - name: "Feature"
+    description: "Propose a new feature."
+    title: "[Feature]: "
+    labels: ["enhancement","feature"]
+    body: "./ISSUE_TEMPLATE/feature.md"
+  - name: "Documentation"
+    description: "Suggest updates or additions to the documentation."
+    title: "[Docs]: "
+    labels: ["documentation"]
+    body: "./ISSUE_TEMPLATE/documentation.md"
+  - name: "General Report"
+    description: "Provide general feedback or inquiries."
+    title: "[General]: "
+    labels: ["general"]
+    body: "./ISSUE_TEMPLATE/general.md"
