@@ -1,0 +1,30 @@
+{%extends 'layout/base.html'%}
+
+{% load django_browser_reload %}
+{%load static%}
+
+{%block body%}
+<body class="bg-gradient-to-br from-purple-600 via-blue-600 to-pink-500 min-h-screen">
+    
+
+    {% block messages %}
+        {%include "layout/messages.html"%}
+    {% endblock %}
+
+    <!-- Modal Block -->
+    {% block modal %}
+    <!-- Os modais específicos de cada página podem ser inseridos aqui -->
+    {% endblock %}
+
+    <!-- Main Content -->
+    <div class="flex items-center justify-center min-h-screen p-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Scripts Block -->
+    {% block scripts %}
+    
+    {% endblock %}
+    {% django_browser_reload_script %}
+</body>
+{%endblock%}
