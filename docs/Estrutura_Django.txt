@@ -1,0 +1,54 @@
+- Estrutura básica
+    Ao iniciarmos um projeto django (django admin startproject [nome_pasta]), é criado um arquivo 'manage.py' e uma pasta com o nome dado anteriormente. Tanto o 'manage.py' como os arquivos que vêm dentro da pasta são arquivos básicos    
+        
+- Arquivos básicos
+    Os arquivos básicos são arquivos de configuração, de forma resumida. De jeito que cada um tem seu papel
+
+    __init__.py: Ele serve, a grosso modo, para tornar a pasta em questão um pacote de módulos. Isso é, para tornar as informações nos outros arquivos 'utilizáveis' por outros
+
+    asgi.py: É uma interface, que serve como um ponto de entrada do Django para servidores ASSÍNCRONOS
+
+    wsgi.py: É também uma interface e similar ao asgi, servindo como ponto de entrada do Django para servidores SÍNCRONOS
+
+    settings.py: Nesse arquivo estará contido todas as configurações globais do Django e de bibliotecas externas também
+
+    urls.py: Neste último arquivo é onde a gente gerencia os urls da nossa aplicação, exemplo de url: 'www.youtube.com/'. Nesse arquivo que a gente denomina quais serão as urls de todas as páginas do projeto
+
+    manage.py: É a CLI do Django, ou seja, é nele que as principais ações rodam: Dar start no server, migrar e etc.
+
+- Admin
+    Resumidamente, admin é um painel administrativo criado pelo Django a partir do seu código, uma interface justamente para você admisnistrar o banco de dados facilmente, criando, editando ou apagando registros, listando dados e etc. Para acessá-lo, basta você ser um superuser, e colocar '/admin' no fim da url, caso isso não já tenha sido modificado. Dessa forma, basta logar como superuser e você tem acesso ao painel admin
+
+- Arquivos estáticos
+    Os arquivos estáticos são arquivos que cuidam da parte visual do site, isso é: eles são responsáveis por tornar o site bonito, intuitivo e prático. São chamados de estáticos porque suas ações não mudam de acordo com as ações do usuário. Na estrutura do Django, os arquivos estáticos costumam ser guardados dentro de uma pasta 'static'
+
+- Diferença no modo Debug
+    O modo debug é um modo feito para facilitar o desenvolvimento, fazendo atualização automática de acordo com o que o código é modificado, aceitando qualquer tipo de host, os arquivos estáticos são servidos pelo próprio Django e a segurança é relaxada, então um Django com debug igual a True NÃO DEVE SER UPADO. Com o debug desativado, a segurança é reforçada, os hosts aceitados são somente os que estão listados no ALLOWED_HOSTS, o código não é atualizado automaticamente e os arquivos estáticos não são mais fornecidos pelo Django, fornecendo uma segurança maior e menos travada, bem programado pra ter o deploy feito.
+
+- Allowed_Hosts
+    São os hosts que o Django aceita que acessem a nossa aplicação. Eles são setados numa lista ALLOWED_HOSTS que reside em settings.py
+
+- Conexão com o banco
+    A conexão do Django com o banco é simples. Na settings.py há a configuração de tudo que o Django precisa receber do banco para a conexão (Nome, senha...), sendo recebido em um dicionário que está dentro de outro dicionário. Essas 'variáveis' que não são muito variáveis são importadas do arquivo .env, que é onde a infra informa tudo que precisa ser informado
+
+- Media
+    A grosso modo, media é tudo que é 'adicionado' pelo usuário (foto de perfil, PDFs adicionados e etc) e não faz parte do código, e por isso se diferencia dos arquivos estáticos. Para ser adicionada uma media, é chegada uma request no Django, então o Django salva a media no MEDIA_ROOT, o caminho é salvo no banco e então o arquivo fica disponível na MEDIA_URL
+
+- Apps
+    Para entender esse conceito, perceba que o Django é um sistema, um conjunto de aplicações que, por sua vez, são conjuntos de códigos. Dessa forma, os apps são as aplicações do sistema Django. Temos alguns apps principais e base do Django, que residem na pasta 'core'
+
+    - __init__.py: Como dito anteriormente, informa ao python que aquela pasta é um módulo
+
+    - admin.py: configurações do Django Admin, que serve para registrar models, customizar listagens e etc
+
+    - apps.py: configurações do app (nome, sinalizações, hooks de inicialização)
+
+    - constants.py: Evita números mágicos (números soltos, sem explicação do que é e por quê é este número) e centraliza valores fixos
+
+    - mixins.py: É um arquivo que contém blocos de lógica que podem vir a serem úteis em alguma ocasião
+
+    - models.py: Esse arquivo trabalha na definição das tabelas do banco de dados, definindo entidades, campos, relacionamentos e etc
+
+    - tests.py: É basicamente para testes automáticos, testando as regras de negócios, views e models
+
+    - views.py: É o cérebro do app. É responsável por receber requests, responder com response e executar lógica. Pode retornar HTML, JSON, redirect ou erro
